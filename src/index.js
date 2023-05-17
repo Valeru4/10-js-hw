@@ -25,13 +25,21 @@ function onInputCountry() {
             listEl.insertAdjacentHTML('beforeend', createListOfCountry(countries));
             optiontEl.insertAdjacentHTML('beforeend', createOptionsOfCountry(countries));
 
-            } else if (countries.length >= 10) { 
+            } else if (countries.length > 10) { 
                 alertErrorTooManyMatches()
-            } else {
+            } else if (countries.length >=2 && countries.length <= 10){
                 listEl.insertAdjacentHTML('beforeend', createListOfCountry(countries));
             }
         })
-        .catch(alertErrorSpecific)
+    .catch(error => {
+    if (error.status = '404') {
+         alertErrorSpecific();
+    } else {
+         error.message();
+    }
+    listEl.innerHTML = '';
+    optiontEl.innerHTML = '';
+})
 }
 
 
@@ -65,3 +73,4 @@ Notiflix.Notify.failure('Oops, there is no country with that name')
 function alertErrorTooManyMatches() {
 Notiflix.Notify.info('Too many matches found. Please enter a more specific name.')
 }
+
